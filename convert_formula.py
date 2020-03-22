@@ -2,7 +2,8 @@ import re
 
 
 form = '(p=>(p|=>p||))=>((p=>p|)=>(p=>p||))'
-f_1 = '~(p&p|)=>(~pU~p|)'
+form_1 = '~(p&p|)=>(~pU~p|)'
+form_2 = '~(pU(p|Up||))<=>(~p&(~p|&~p||))'
 
 
 def convert_variables(f):
@@ -17,6 +18,13 @@ def convert_variables(f):
         f = re.sub(match, f'{num} ', f)
         num -= 1
     return f
+
+
+def var_number(f):
+    pattern = r'p\|*'
+    var = re.findall(pattern, f)
+    var = list(set(var))
+    return len(var)
 
 
 def convert_operators(f):
@@ -62,11 +70,35 @@ def fill_closing_brackets(f):
 
 
 def render_raw_formula(f):
-    f = convert_variables(f)
+    f, = convert_variables(f)
     f = convert_operators(f)
     f = space_out(f)
     f = fill_closing_brackets(f)
     return f
 
 
-print(render_raw_formula(f_1))
+def convert_to_rpn(f):
+    f = render_raw_formula(f)
+    stack = []
+    for term in f:
+        if term == ']':
+            f_1 = stack.pop()
+            operator = stack.pop()
+            new_top = f'{operator} {f_1}'
+            stack.append(new_top)
+        elif term == ')':
+            f_1 = stack.pop()
+            operator = stack.pop()
+            f_2 = stack.pop()
+            new_top = f'{operator} {f_2} {f_1}'
+            stack.append(new_top)
+        elif term.isalnum():
+            stack.append(term)
+    return stack.pop()
+
+
+print(form_2)
+g = render_raw_formula(form_2)
+print(g)
+f = convert_to_rpn(form_2)
+print(f)

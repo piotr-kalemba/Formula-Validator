@@ -23,9 +23,9 @@ var_button = tk.Button(root, text='|', padx=25, pady=10, command=lambda: add_to_
 left_button = tk.Button(root, text='(', padx=25, pady=10, command=lambda: add_to_entry('('))
 right_button = tk.Button(root, text=')', padx=25, pady=10, command=lambda: add_to_entry(')'))
 
-neg_button = tk.Button(root, text='not', padx=25, pady=10, command=lambda: add_to_entry('~'))
-or_button = tk.Button(root, text='or', padx=33, pady=10, command=lambda: add_to_entry('U'))
-and_button = tk.Button(root, text='and', padx=25, pady=10, command=lambda: add_to_entry('&'))
+neg_button = tk.Button(root, text='~', padx=25, pady=10, command=lambda: add_to_entry('~'))
+or_button = tk.Button(root, text='U', padx=25, pady=10, command=lambda: add_to_entry('U'))
+and_button = tk.Button(root, text='&', padx=25, pady=10, command=lambda: add_to_entry('&'))
 imp_button = tk.Button(root, text='=>', padx=25, pady=10, command=lambda: add_to_entry('=>'))
 eqv_button = tk.Button(root, text='<=>', padx=25, pady=10, command=lambda: add_to_entry('<=>'))
 clear_button = tk.Button(root, text='clear', padx=25, pady=10, command=clear)
