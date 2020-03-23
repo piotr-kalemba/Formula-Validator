@@ -33,7 +33,6 @@ def convert_operators(f):
     f = re.sub('U', 'A ', f)
     f = re.sub('&', 'K ', f)
     f = re.sub('~', '~  ', f)
-
     return f
 
 
@@ -70,7 +69,7 @@ def fill_closing_brackets(f):
 
 
 def render_raw_formula(f):
-    f, = convert_variables(f)
+    f = convert_variables(f)
     f = convert_operators(f)
     f = space_out(f)
     f = fill_closing_brackets(f)
@@ -83,22 +82,17 @@ def convert_to_rpn(f):
     for term in f:
         if term == ']':
             f_1 = stack.pop()
-            operator = stack.pop()
-            new_top = f'{operator} {f_1}'
+            op = stack.pop()
+            new_top = f'{f_1} {op}'
             stack.append(new_top)
         elif term == ')':
             f_1 = stack.pop()
-            operator = stack.pop()
+            op = stack.pop()
             f_2 = stack.pop()
-            new_top = f'{operator} {f_2} {f_1}'
+            new_top = f'{f_2} {f_1} {op}'
             stack.append(new_top)
         elif term.isalnum():
             stack.append(term)
     return stack.pop()
 
 
-print(form_2)
-g = render_raw_formula(form_2)
-print(g)
-f = convert_to_rpn(form_2)
-print(f)
