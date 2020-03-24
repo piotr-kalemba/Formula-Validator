@@ -1,11 +1,6 @@
 import re
 
 
-form = '(p=>(p|=>p||))=>((p=>p|)=>(p=>p||))'
-form_1 = '~(p&p|)=>(~pU~p|)'
-form_2 = '~(pU(p|Up||))<=>(~p&(~p|&~p||))'
-
-
 def convert_variables(f):
     pattern = r'p\|*'
     var = re.findall(pattern, f)

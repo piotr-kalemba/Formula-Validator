@@ -1,5 +1,5 @@
 from logical_operators import neg_op, or_op, and_op, imp_op, eqv_op
-from convert_formula import convert_to_rpn
+from convert_formula import convert_to_rpn, var_number
 
 
 def compute_boolean(f, c):
@@ -10,7 +10,7 @@ def compute_boolean(f, c):
             f[i] = c[int(f[i])]
     stack = []
     for term in f:
-        if term.isdigit():
+        if type(term) == int:
             stack.append(term)
         if term == 'N':
             val = stack.pop()
@@ -34,10 +34,38 @@ def compute_boolean(f, c):
     return stack.pop()
 
 
-form_1 = 'p&(~p|U~p||)'
-f = convert_to_rpn(form_1)
-print(f)
-for c in [('0', '0', '0'), ('0', '0', '1'), ('0', '1', '0'), ('1', '0', '0'), ('1', '1', '0'), ('1', '0', '1'),
-          ('0', '1', '1'), ('1', '1', '1')]:
-    print(compute_boolean(f, c))
+def pow_2(n):
+    i = 0
+    while n % 2 == 0:
+        n //= 2
+        i += 1
+    return i
+
+
+def search_for_counterexample(form):
+    f = convert_to_rpn(form)
+    n = var_number(form)
+    c = [0] * n
+    p = 0
+    k = 0
+    while p < n:
+        if compute_boolean(f, c) == 0:
+            return c
+        k += 1
+        p = pow_2(k)
+        if p < n:
+            c[p] = 1 - c[p]
+    return None
+
+
+def get_answer(form):
+    answer = search_for_counterexample(form)
+    if answer is None:
+        return 'TAUTOLOGY'
+    else:
+        answer = [str(b) for b in answer]
+        return 'Invalid for: ' + ''.join(answer)
+
+
+
 

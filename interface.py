@@ -1,4 +1,6 @@
 import tkinter as tk
+from compute_formula import get_answer
+
 
 root = tk.Tk()
 
@@ -18,6 +20,14 @@ def clear():
     e.delete(0, tk.END)
 
 
+def show_answer():
+    form = e.get()
+    e.delete(0, tk.END)
+
+    message = get_answer(form)
+    e.insert(0, message)
+
+
 p_button = tk.Button(root, text='p', padx=25, pady=10, command=lambda: add_to_entry('p'))
 var_button = tk.Button(root, text='|', padx=25, pady=10, command=lambda: add_to_entry('|'))
 left_button = tk.Button(root, text='(', padx=25, pady=10, command=lambda: add_to_entry('('))
@@ -30,7 +40,7 @@ imp_button = tk.Button(root, text='=>', padx=25, pady=10, command=lambda: add_to
 eqv_button = tk.Button(root, text='<=>', padx=25, pady=10, command=lambda: add_to_entry('<=>'))
 clear_button = tk.Button(root, text='clear', padx=25, pady=10, command=clear)
 
-validate_button = tk.Button(root, text='validate', padx=25, pady=10)
+validate_button = tk.Button(root, text='validate', padx=25, pady=10, command=show_answer)
 
 p_button.grid(row=1, column=0)
 var_button.grid(row=1, column=1)
