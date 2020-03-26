@@ -21,10 +21,10 @@ def clear():
 
 
 def show_answer():
-    form = e.get()
+    formula = e.get()
     e.delete(0, tk.END)
 
-    message = get_answer(form)
+    message = get_answer(formula)
     e.insert(0, message)
 
 

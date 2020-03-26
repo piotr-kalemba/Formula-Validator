@@ -34,7 +34,6 @@ def convert_operators(f):
 def space_out(f):
     f = re.sub(r'\(', '( ', f)
     f = re.sub(r'\)', ') ', f)
-    f = f'( {f})'
     return f
 
 
@@ -65,9 +64,13 @@ def fill_closing_brackets(f):
 
 def render_raw_formula(f):
     f = convert_variables(f)
+    if '|' in f:
+        return None
     f = convert_operators(f)
     f = space_out(f)
     f = fill_closing_brackets(f)
+    if f[-1] != ']':
+        f = f'( {f} )'
     return f
 
 
@@ -77,17 +80,18 @@ def convert_to_rpn(f):
     for term in f:
         if term == ']':
             f_1 = stack.pop()
-            op = stack.pop()
-            new_top = f'{f_1} {op}'
+            new_top = f'{f_1} {stack.pop()}'
             stack.append(new_top)
-        elif term == ')':
+        if term == ')':
             f_1 = stack.pop()
             op = stack.pop()
             f_2 = stack.pop()
             new_top = f'{f_2} {f_1} {op}'
             stack.append(new_top)
-        elif term.isalnum():
+        if term.isalnum():
             stack.append(term)
-    return stack.pop()
-
+    rpn = stack.pop()
+    if stack:
+        raise IndexError
+    return rpn
 

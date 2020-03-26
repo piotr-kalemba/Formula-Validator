@@ -45,6 +45,8 @@ def pow_2(n):
 def search_for_counterexample(form):
     f = convert_to_rpn(form)
     n = var_number(form)
+    if len(f) == 1:
+        return [0]
     c = [0] * n
     p = 0
     k = 0
@@ -59,7 +61,12 @@ def search_for_counterexample(form):
 
 
 def get_answer(form):
-    answer = search_for_counterexample(form)
+    try:
+        answer = search_for_counterexample(form)
+    except IndexError:
+        return 'SYNTAX ERROR'
+    except TypeError:
+        return 'SYNTAX ERROR'
     if answer is None:
         return 'TAUTOLOGY'
     else:
