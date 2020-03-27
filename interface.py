@@ -23,9 +23,9 @@ def clear():
 def show_answer():
     formula = e.get()
     e.delete(0, tk.END)
-
-    message = get_answer(formula)
-    e.insert(0, message)
+    if formula:
+        message = get_answer(formula)
+        e.insert(0, message)
 
 
 p_button = tk.Button(root, text='p', padx=25, pady=10, command=lambda: add_to_entry('p'))

@@ -27,17 +27,18 @@ def convert_operators(f):
     f = re.sub('=>', 'C ', f)
     f = re.sub('U', 'A ', f)
     f = re.sub('&', 'K ', f)
-    f = re.sub('~', '~  ', f)
+    f = re.sub('N', ' N ', f)
     return f
 
 
 def space_out(f):
     f = re.sub(r'\(', '( ', f)
     f = re.sub(r'\)', ') ', f)
+    f = re.sub(r']', ' ] ', f)
     return f
 
 
-def match_closing_parenthesis(s, i):
+def match_parenthesis(s, i):
     stack = []
     for index in range(i, len(s)):
         if s[index] == '(':
@@ -48,34 +49,76 @@ def match_closing_parenthesis(s, i):
             return index
 
 
-def fill_closing_brackets(f):
-    f = f.split()
+def match_number_end(s, i):
+    index = i
+    while s[index].isdigit():
+        index += 1
+    return index
+
+
+def add_neg_brackets(f):
+    pattern = '[~]+'
     while '~' in f:
-        start = f.index('~')
-        if f[start+1].isdigit():
-            f.insert(start+2, ']')
-            f[f.index('~')] = 'N'
+        match = re.search(pattern, f)
+        index = match.end()
+        length = match.end() - match.start()
+        if index < len(f) and f[index] == '(':
+            end = match_parenthesis(f, index)
+            seq = list(f)
+            for _ in range(length):
+                seq.insert(end+1, ']')
+                seq[seq.index('~')] = 'N'
+            f = ''.join(seq)
+        elif index < len(f) and f[index].isdigit():
+            end = match_number_end(f, index)
+            seq = list(f)
+            for _ in range(length):
+                seq.insert(end, ']')
+                seq[seq.index('~')] = 'N'
+            f = ''.join(seq)
         else:
-            end = match_closing_parenthesis(f, start+1)
-            f.insert(end+1, ']')
-            f[f.index('~')] = 'N'
-    return ' '.join(f)
+            raise IndexError
+    return f
 
 
 def render_raw_formula(f):
     f = convert_variables(f)
     if '|' in f:
         return None
+    f = add_neg_brackets(f)
     f = convert_operators(f)
     f = space_out(f)
-    f = fill_closing_brackets(f)
-    if f[-1] != ']':
+    cl_num = f.count(')')
+    op_num = f.count('C') + f.count('A') + f.count('K') + f.count('E')
+    if cl_num < op_num:
         f = f'( {f} )'
     return f
 
 
-def convert_to_rpn(f):
+def check_parenthesis(f):
     f = render_raw_formula(f)
+    if f is None:
+        return False
+    stack = []
+    try:
+        for term in f:
+            if term == '(':
+                stack.append(term)
+            if term == ')':
+                stack.pop()
+    except ValueError:
+        return False
+    if stack:
+        return False
+    return True
+
+
+def convert_to_rpn(f):
+    if not check_parenthesis(f):
+        raise IndexError
+    f = render_raw_formula(f)
+    if f == '( 0 )':
+        return '0'
     stack = []
     for term in f:
         if term == ']':
