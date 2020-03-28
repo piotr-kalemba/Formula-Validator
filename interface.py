@@ -1,13 +1,13 @@
 import tkinter as tk
 from compute_formula import get_answer
 
-
+large_font = ('Verdana', 10)
 root = tk.Tk()
 
 root.title('Formula validator')
 
-e = tk.Entry(root, width=45)
-e.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
+e = tk.Entry(root, width=50, font=large_font)
+e.grid(row=0, column=0, columnspan=4, padx=10, pady=30)
 
 
 def add_to_entry(sign):
@@ -28,19 +28,19 @@ def show_answer():
         e.insert(0, message)
 
 
-p_button = tk.Button(root, text='p', padx=25, pady=10, command=lambda: add_to_entry('p'))
-var_button = tk.Button(root, text='|', padx=25, pady=10, command=lambda: add_to_entry('|'))
-left_button = tk.Button(root, text='(', padx=25, pady=10, command=lambda: add_to_entry('('))
-right_button = tk.Button(root, text=')', padx=25, pady=10, command=lambda: add_to_entry(')'))
+p_button = tk.Button(root, text='p', padx=42, pady=10, fg='blue', bg='grey', command=lambda: add_to_entry('p'))
+var_button = tk.Button(root, text='|', padx=42, pady=10, fg='blue', bg='grey', command=lambda: add_to_entry('|'))
+left_button = tk.Button(root, text='(', padx=42, pady=10, fg='blue', bg='grey', command=lambda: add_to_entry('('))
+right_button = tk.Button(root, text=')', padx=44, pady=10, fg='blue', bg='grey', command=lambda: add_to_entry(')'))
 
-neg_button = tk.Button(root, text='~', padx=25, pady=10, command=lambda: add_to_entry('~'))
-or_button = tk.Button(root, text='U', padx=25, pady=10, command=lambda: add_to_entry('U'))
-and_button = tk.Button(root, text='&', padx=25, pady=10, command=lambda: add_to_entry('&'))
-imp_button = tk.Button(root, text='=>', padx=25, pady=10, command=lambda: add_to_entry('=>'))
-eqv_button = tk.Button(root, text='<=>', padx=25, pady=10, command=lambda: add_to_entry('<=>'))
-clear_button = tk.Button(root, text='clear', padx=25, pady=10, command=clear)
+neg_button = tk.Button(root, text='~', padx=40, pady=10, fg='blue', bg='grey', command=lambda: add_to_entry('~'))
+or_button = tk.Button(root, text='U', padx=40, pady=10, fg='blue', bg='grey', command=lambda: add_to_entry('U'))
+and_button = tk.Button(root, text='&', padx=40, pady=10, fg='blue', bg='grey', command=lambda: add_to_entry('&'))
+imp_button = tk.Button(root, text='=>', padx=36, pady=10, fg='blue', bg='grey', command=lambda: add_to_entry('=>'))
+eqv_button = tk.Button(root, text='<=>', padx=30, pady=10, fg='blue', bg='grey', command=lambda: add_to_entry('<=>'))
+clear_button = tk.Button(root, text='clear', padx=29, pady=10, fg='red', bg='grey', command=clear)
 
-validate_button = tk.Button(root, text='validate', padx=25, pady=10, command=show_answer)
+validate_button = tk.Button(root, text='validate', padx=72, pady=10, fg='red', bg='grey', command=show_answer)
 
 p_button.grid(row=1, column=0)
 var_button.grid(row=1, column=1)
