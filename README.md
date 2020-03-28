@@ -1,7 +1,6 @@
 # Tkinter
 This project provides a device for verifying whether a formula of the propositional calculus is a tautology. The GUI of the
-application has been written using Tkinter. The interface includes buttons for variable creation (p and |, which produce p, p|, p||, p|||...) and for the logical connectives 
-(~, U, &, =>, <=>). As a user you can type a formula and press 'validate' button; the application can give one of three answers: TAUTOLOGY, SYNTAX ERROR or a valuation for which the formula is invalid.
+application has been written using Tkinter. The interface includes buttons for variable creation (p and |, which produce p, p|, p||, p|||...) and for the logical connectives. As a user you can type a formula and press 'validate' button; the application can give one of three answers: TAUTOLOGY, SYNTAX ERROR or a valuation for which the formula is invalid.
 Typing a formula must conform to certain conventions (otherwise the answer will be SYNTAX ERROR), namely you must use parentesis for any 
 two-argument logical connective, however, you don't have to add extra parenthesis for negation and you don't have to bracket the whole formula. Some examples of accepted formulas: pU~p, ~(p&~p), (pUp|)=>~p|, (p=>p|)U(p|=>p), (pU(p|&p||))<=>((pUp|)&p||). 
 A valuation for which the formula is invalid is given as a sequence of 0's and 1's where first digit corresponds to the variable in the formula with the fewest number of bars "|", the second digit to the variable with second fewest number of bars ect.
