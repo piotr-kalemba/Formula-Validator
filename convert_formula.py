@@ -10,7 +10,7 @@ def convert_variables(f):
     num = len(var) - 1
     for match in var:
         match = re.escape(match)
-        f = re.sub(match, f'{num} ', f)
+        f = re.sub(match, f'{num}', f)
         num -= 1
     return f
 
@@ -27,14 +27,18 @@ def convert_operators(f):
     f = re.sub('=>', 'C ', f)
     f = re.sub('U', 'A ', f)
     f = re.sub('&', 'K ', f)
-    f = re.sub('N', ' N ', f)
+    f = re.sub('N', 'N ', f)
     return f
 
 
-def space_out(f):
+def add_space(f):
     f = re.sub(r'\(', '( ', f)
     f = re.sub(r'\)', ') ', f)
-    f = re.sub(r']', ' ] ', f)
+    f = re.sub(r']', '] ', f)
+    borders = re.findall(r'\d[^\d]', f)
+    for b in borders:
+        rb = re.escape(b)
+        f = re.sub(rb, f'{b[0]} {b[1]}', f)
     return f
 
 
@@ -51,7 +55,7 @@ def match_parenthesis(s, i):
 
 def match_number_end(s, i):
     index = i
-    while s[index].isdigit():
+    while index < len(s) and s[index].isdigit():
         index += 1
     return index
 
@@ -87,11 +91,11 @@ def render_raw_formula(f):
         return None
     f = add_neg_brackets(f)
     f = convert_operators(f)
-    f = space_out(f)
+    f = add_space(f)
     cl_num = f.count(')')
     op_num = f.count('C') + f.count('A') + f.count('K') + f.count('E')
     if cl_num < op_num:
-        f = f'( {f} )'
+        f = f'( {f})'
     return f
 
 
