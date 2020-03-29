@@ -1,12 +1,12 @@
 import tkinter as tk
 from compute_formula import get_answer
 
-large_font = ('Verdana', 10)
+my_font = ('Verdana', 10)
 root = tk.Tk()
 
 root.title('Formula validator')
 
-e = tk.Entry(root, width=50, font=large_font)
+e = tk.Entry(root, width=50, font=my_font)
 e.grid(row=0, column=0, columnspan=4, padx=10, pady=30)
 
 

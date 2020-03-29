@@ -3,6 +3,7 @@ from convert_formula import convert_to_rpn, var_number
 
 
 def compute_boolean(f, c):
+    """the function takes formula f and valuation c and returns boolean value of f for c"""
     f = f.split()
     n = len(f)
     for i in range(n):
@@ -35,6 +36,7 @@ def compute_boolean(f, c):
 
 
 def pow_2(n):
+    """this is a function used in the function below that returns maximal exponent of power of 2 that divides n"""
     i = 0
     while n % 2 == 0:
         n //= 2
@@ -43,6 +45,8 @@ def pow_2(n):
 
 
 def search_for_counterexample(form):
+    """this function is based on so called Gray code and generates 01-sequences until one falsifying the formula f
+    is found or returns None otherwise"""
     f = convert_to_rpn(form)
     n = var_number(form)
     if len(f) == 1:
@@ -61,6 +65,8 @@ def search_for_counterexample(form):
 
 
 def get_answer(form):
+    """the function finds the answer whether 'form' is a tautology, has incorrect syntax or returns valuation for which
+    the formula is false"""
     try:
         answer = search_for_counterexample(form)
     except IndexError:

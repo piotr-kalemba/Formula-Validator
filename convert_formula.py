@@ -2,6 +2,8 @@ import re
 
 
 def convert_variables(f):
+    """the function substitutes any variable in the formula f for a natural number, thus created natural numbers are
+    0, 1,..., k-1 where k is the number of distinct variables in the formula f"""
     pattern = r'p\|*'
     var = re.findall(pattern, f)
     var = list(set(var))
@@ -16,6 +18,7 @@ def convert_variables(f):
 
 
 def var_number(f):
+    """the function returns the number of variables in the formula f"""
     pattern = r'p\|*'
     var = re.findall(pattern, f)
     var = list(set(var))
@@ -23,6 +26,7 @@ def var_number(f):
 
 
 def convert_operators(f):
+    """the function substitutes logical connectives in f for their counterparts in the parenthesis-free notation"""
     f = re.sub('<=>', 'E ', f)
     f = re.sub('=>', 'C ', f)
     f = re.sub('U', 'A ', f)
@@ -32,6 +36,8 @@ def convert_operators(f):
 
 
 def add_space(f):
+    """this is a technical function that adds spaces between signs so as to separate
+    units of different roles"""
     f = re.sub(r'\(', '( ', f)
     f = re.sub(r'\)', ') ', f)
     f = re.sub(r']', '] ', f)
@@ -43,6 +49,8 @@ def add_space(f):
 
 
 def match_parenthesis(s, i):
+    """this is a technical function that finds the index in the string s of the closing parenthesis corresponding to
+    the opening one at the index i"""
     stack = []
     for index in range(i, len(s)):
         if s[index] == '(':
@@ -54,6 +62,7 @@ def match_parenthesis(s, i):
 
 
 def match_number_end(s, i):
+    """the function finds the first index after i for which s[index] is not a digit"""
     index = i
     while index < len(s) and s[index].isdigit():
         index += 1
@@ -61,6 +70,9 @@ def match_number_end(s, i):
 
 
 def add_neg_brackets(f):
+    """the function adds sign ']' after any negation phrase (negated subformula) that lies in f - by convention we
+    assume that formula f (given by the user) does not contain parenthesis for negations so for further processing
+    those brackets need to be automatically added"""
     pattern = '[~]+'
     while '~' in f:
         match = re.search(pattern, f)
@@ -86,6 +98,7 @@ def add_neg_brackets(f):
 
 
 def render_raw_formula(f):
+    """the function finally renders a raw formula given by the user into a form suitable for later processing"""
     f = convert_variables(f)
     if '|' in f:
         return None
@@ -100,6 +113,7 @@ def render_raw_formula(f):
 
 
 def check_parenthesis(f):
+    """the function verifies whether the lay-out of the parenthesis in the formula is correct"""
     f = render_raw_formula(f)
     if f is None:
         return False
@@ -118,6 +132,7 @@ def check_parenthesis(f):
 
 
 def convert_to_rpn(f):
+    """the function converts a raw formula f into a formula in the Reverse Polish Notation"""
     if not check_parenthesis(f):
         raise IndexError
     f = render_raw_formula(f)
