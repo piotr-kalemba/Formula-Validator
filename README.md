@@ -6,7 +6,7 @@ two-argument logical connective, however, you don't have to add extra parenthesi
 (pU(p|&p||))<=>((pUp|)&p||). 
 
 A valuation for which the formula is invalid is given as a sequence of 0's and 1's where first digit corresponds to the variable in the formula with the fewest number of bars "|", the second digit to the variable with second fewest number of bars ect.
-For instance, for a formula ~p||Up|, '01' is a valuation given as the answer (0 corresponds to p| and 1 corresponds to p||).
+For instance, for the formula ~p||Up|, '01' is a valuation given as the answer (0 corresponds to p| and 1 corresponds to p||).
 
 Logic of the application:
 The formula typed by a user is parsed (for instance variables are substituted for initial natural numbers), then the formula is transformed
